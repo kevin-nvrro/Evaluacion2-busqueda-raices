@@ -125,3 +125,34 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iteraciones=100):
         
     print("El metodo no alcanzo la tolerancia")
     return x_actual, max_iteraciones, historial_x, historial_error
+
+def newton_raphson_mejorado(f, df, d2f, x0, tol=1e-6, max_iteraciones=100):
+    historial_x = []
+    historial_error = []
+    x_anterior = x0
+    
+    for i in range(1, max_iteraciones + 1):
+        fx = f(x_anterior)
+        dfx = df(x_anterior)
+        d2fx = d2f(x_anterior)
+        
+        denominador = (dfx * dfx) - (fx * d2fx)
+        
+        if denominador == 0:
+            print("denominador dio cero, el metodo falla")
+            return 0, 0, [], []
+            
+        x_actual = x_anterior - (fx * dfx) / denominador
+        
+        error = abs(x_actual - x_anterior)
+        
+        historial_x.append(x_actual)
+        historial_error.append(error)
+        
+        if abs(fx) < tol or error < tol:
+            return x_actual, i, historial_x, historial_error
+            
+        x_anterior = x_actual
+        
+    print("el metodo no alcanzo la tolerancia")
+    return x_actual, max_iteraciones, historial_x, historial_error
