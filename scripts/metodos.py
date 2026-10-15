@@ -55,3 +55,23 @@ def falsa_posicion(f, a, b, tol = 1e-6, max_iteraciones = 100):
         
     return c, max_iteraciones, historial_x, historial_error
 
+def punto_fijo(g, x0, tol=1e-6, max_iteraciones=100):
+    historial_x = []
+    historial_error = []
+    x_anterior = x0
+    
+    for i in range(1, max_iteraciones + 1):
+        x_actual = g(x_anterior)
+        
+        error = abs(x_actual - x_anterior)
+        
+        historial_x.append(x_actual)
+        historial_error.append(error)
+        
+        if error < tol:
+            return x_actual, i, historial_x, historial_error
+            
+        x_anterior = x_actual
+        
+    print("El metodo de punto fijo no alcanzo la tolerancia")
+    return x_actual, max_iteraciones, historial_x, historial_error
