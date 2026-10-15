@@ -75,3 +75,28 @@ def punto_fijo(g, x0, tol=1e-6, max_iteraciones=100):
         
     print("El metodo de punto fijo no alcanzo la tolerancia")
     return x_actual, max_iteraciones, historial_x, historial_error
+
+def secante(f, x0, x1, tol=1e-6, max_iteraciones=100):
+    historial_x = []
+    historial_error = []
+    
+    for i in range(1, max_iteraciones + 1):
+        if f(x1) - f(x0) == 0:
+            print("cuidado con la division por 0")
+            return 0, 0, [], []
+            
+        x2 = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
+        
+        error = abs(x2 - x1)
+        
+        historial_x.append(x2)
+        historial_error.append(error)
+        
+        if abs(f(x2)) < tol or error < tol:
+            return x2, i, historial_x, historial_error
+            
+        x0 = x1
+        x1 = x2
+        
+    print("El metodo no alcanzo la tolerancia")
+    return x1, max_iteraciones, historial_x, historial_error
