@@ -61,8 +61,11 @@ def punto_fijo(g, x0, tol=1e-6, max_iteraciones=100):
     x_anterior = x0
     
     for i in range(1, max_iteraciones + 1):
+        if abs(x_anterior) > 100000:
+            print("los numeros crecieron muy rápido, el metodo falló")
+            return 0, 0, [], []
+            
         x_actual = g(x_anterior)
-        
         error = abs(x_actual - x_anterior)
         
         historial_x.append(x_actual)
@@ -73,7 +76,7 @@ def punto_fijo(g, x0, tol=1e-6, max_iteraciones=100):
             
         x_anterior = x_actual
         
-    print("El metodo de punto fijo no alcanzo la tolerancia")
+    print("el método no alcanzó la tolerancia")
     return x_actual, max_iteraciones, historial_x, historial_error
 
 def secante(f, x0, x1, tol=1e-6, max_iteraciones=100):
