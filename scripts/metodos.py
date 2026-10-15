@@ -100,3 +100,28 @@ def secante(f, x0, x1, tol=1e-6, max_iteraciones=100):
         
     print("El metodo no alcanzo la tolerancia")
     return x1, max_iteraciones, historial_x, historial_error
+
+def newton_raphson(f, df, x0, tol=1e-6, max_iteraciones=100):
+    historial_x = []
+    historial_error = []
+    x_anterior = x0
+    
+    for i in range(1, max_iteraciones + 1):
+        if df(x_anterior) == 0:
+            print("la derivada es cero, el metodo falla aqui")
+            return 0, 0, [], []
+            
+        x_actual = x_anterior - f(x_anterior) / df(x_anterior)
+        
+        error = abs(x_actual - x_anterior)
+        
+        historial_x.append(x_actual)
+        historial_error.append(error)
+        
+        if abs(f(x_actual)) < tol or error < tol:
+            return x_actual, i, historial_x, historial_error
+            
+        x_anterior = x_actual
+        
+    print("El metodo no alcanzo la tolerancia")
+    return x_actual, max_iteraciones, historial_x, historial_error
